@@ -1,15 +1,21 @@
 import {Container, Card, CardColumns} from 'react-bootstrap'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom';
+
 function EventCard({event}) {
     return (
         <Card bg="dark" text="white" >
-            <Card.Header>{event.date} {event.time}</Card.Header>
+            <Card.Header> {event.title} </Card.Header>
             <Card.Body>
-                <Card.Title>{event.title}</Card.Title>
-                <Card.Subtitle>{event.owner && event.owner.name}</Card.Subtitle>
+                <Card.Title></Card.Title>
+                
                 <Card.Text>
-                    {event.description}
+
+                <p className="text-muted">{(new Date(event.date + " " + event.time)).toLocaleString()} </p>
+                <p className="text-muted">Created By {event.owner && event.owner.name}</p>
+                <p>   {event.description} </p>
                 </Card.Text>
+                <Link to={`/events/${event.id}`} className='btn btn-outline-info'>Go</Link>
             </Card.Body>
         </Card>
     );
