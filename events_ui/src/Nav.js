@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FaHome, FaUsers } from "react-icons/fa"
 import { connect } from 'react-redux';
 import {useState} from 'react'
-
+import Image from './Image';
 import store from './store';
 import {api_login} from './api'
 
@@ -33,25 +33,21 @@ function LoginForm() {
                 type="submit">
                 Login
             </Button>
+        <NavLink to="/users/new" exact className="btn btn-outline-info mr-sm-2">
+        Register
+        </NavLink>
         </Form>
     );
 }
 
 function ToolBar({session}) {
-    // TODO: Take out into config
-    console.log(session)
-    const image_path = `http://localhost:4000/users/${session.user_id}/photo`
-
     function logout(ev) {
         ev.preventDefault();
         store.dispatch({ type: 'session/clear' });
     }
     return (
         <>
-            <img src={image_path} 
-                alt="profile" 
-                style={{maxHeight: "50px"}} 
-                className="rounded" />
+            <Image id={session.user_id} /> 
             <span class="mx-1 text-white"> {session.name} </span>
             <Button variant="outline-info" 
                 className="mr-sm-2" 

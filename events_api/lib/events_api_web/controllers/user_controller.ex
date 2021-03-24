@@ -7,17 +7,34 @@ defmodule EventsApiWeb.UserController do
 
   action_fallback EventsApiWeb.FallbackController
 
+  plug Plugs.RequireUser when action in [:edit, :update]
+  plug :require_owner when action in [:edit, :update]
+
+  def require_owner(conn, _args) do
+    {id, _} = Integer.parse(conn.params["id"])
+    curr_user = conn.assigns[:current_user]
+    if curr_user.user_id == id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "That isn't yours.")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
+  end
+
   def index(conn, _params) do
     users = Users.list_users()
     render(conn, "index.json", users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
+    user_params = add_photo_to_user(user_params)
     with {:ok, %User{} = user} <- Users.create_user(user_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+      |> render("base.json", user: user)
     end
   end
 
@@ -36,19 +53,22 @@ defmodule EventsApiWeb.UserController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{}} <- Users.delete_user(user) do
-      send_resp(conn, :no_content, "")
-    end
-  end
-
   def photo(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     {:ok, data, type} = Photos.load_photo(user.photo_id)
     conn
     |> put_resp_content_type(type)
     |> send_resp(200, data)
+  end
+
+  defp add_photo_to_user(user_params) do
+    up = user_params["photo"]
+    if up == nil do
+      user_params
+    else
+      # TODO: check if the type is a valid image type?
+      {:ok, photo} = Photos.save_photo(up.path, up.content_type)
+      Map.put user_params, "photo_id", photo.id
+    end
   end
 end

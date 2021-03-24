@@ -2,7 +2,8 @@ import './App.scss';
 import { Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
 import Home from './Home';
-
+import Directory from './Users/Directory';
+import UserForm from './Users/Form';
 function App() {
   return (
       <>
@@ -11,8 +12,11 @@ function App() {
         <Route path="/" exact>
             <Home />
         </Route>
-        <Route path="/users">
-            <p>Ok</p>
+        <Route path="/users/new">
+            <UserForm />
+        </Route>
+        <Route path="/users" exact>
+            <Directory />
         </Route>
       </Switch>
       </>

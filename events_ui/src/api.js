@@ -57,6 +57,15 @@ export function fetch_current_user() {
     }));
 }
 
+export function create_user(user) {
+    let data = new FormData();
+    data.append("user[name]", user.name);
+    data.append("user[email]", user.email);
+    data.append("user[password]", user.password);
+    data.append("user[photo]", user.photo);
+    return fetch(BASE_URL + "/users", { method: 'POST', body: data})
+}
+
 export function load_defaults() {
     fetch_users();
     if(store.getState().session) fetch_current_user()
