@@ -1,6 +1,7 @@
 defmodule EventsApiWeb.CommentView do
   use EventsApiWeb, :view
   alias EventsApiWeb.CommentView
+  alias EventsApiWeb.UserView
 
   def render("index.json", %{comments: comments}) do
     %{data: render_many(comments, CommentView, "comment.json")}
@@ -12,6 +13,8 @@ defmodule EventsApiWeb.CommentView do
 
   def render("comment.json", %{comment: comment}) do
     %{id: comment.id,
-      body: comment.body}
+      body: comment.body,
+      user: render_one(comment.user, UserView, "user.json")
+      }
   end
 end

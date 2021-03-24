@@ -101,4 +101,9 @@ defmodule EventsApi.Events do
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
   end
+
+  def load_event(%Event{} = event) do
+    Repo.preload(event, [:user, :invites, [comments: :user]])
+  end
+
 end

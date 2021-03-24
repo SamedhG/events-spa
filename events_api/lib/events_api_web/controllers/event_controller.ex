@@ -21,7 +21,7 @@ defmodule EventsApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Events.get_event!(id)
+    event = id |> Events.get_event! |> Events.load_event
     render(conn, "show.json", event: event)
   end
 

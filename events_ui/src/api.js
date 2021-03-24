@@ -70,3 +70,7 @@ export function load_defaults() {
     fetch_users();
     if(store.getState().session) fetch_current_user()
 }
+
+export function fetch_event(id) {
+    return api_get("/events/" + id)
+}
