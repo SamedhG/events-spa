@@ -101,4 +101,17 @@ defmodule EventsApi.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def authenticate(email, pass) do
+    user = Repo.get_by(User, email: email)
+    case Argon2.check_pass(user, pass) do
+      {:ok, user} -> user
+      _ -> nil
+    end
+  end
+
+  def load_user(%User{} = user) do
+    Repo.preload(user, [events: :user, invites: [event: :user]])
+  end
+
 end

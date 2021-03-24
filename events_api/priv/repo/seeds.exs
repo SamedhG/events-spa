@@ -12,13 +12,18 @@ defmodule Inject do
     {:ok, photo}  = Photos.save_photo(path, "type")
     photo
   end
+
+  def user(name, pass, email, photo_id) do
+      hash = Argon2.hash_pwd_salt(pass)
+      Repo.insert!(%User{name: name, password_hash: hash, email: email, photo_id: photo_id})
+  end
 end
 
 p1 = Inject.photo("alice.png", "image/png")
 p2 = Inject.photo("bob.jpg", "image/jpg")
 
-alice = Repo.insert!(%User{name: "alice", email: "a@b.com", photo_id: p1.id, password_hash: ""})
-bob = Repo.insert!(%User{name: "bob", email: "c@d.com", photo_id: p2.id, password_hash: ""})
+alice = Inject.user("alice", "test1", "a@b.com", p1.id)
+bob = Inject.user("bob", "test2", "c@d.com", p2.id)
 
 e1 = %Event{
   title: "Smash Bros",

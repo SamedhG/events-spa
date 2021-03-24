@@ -3,6 +3,7 @@ defmodule EventsApiWeb.UserController do
 
   alias EventsApi.Users
   alias EventsApi.Users.User
+  alias EventsApi.Photos
 
   action_fallback EventsApiWeb.FallbackController
 
@@ -21,7 +22,9 @@ defmodule EventsApiWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+    user = id 
+           |> Users.get_user!
+           |> Users.load_user
     render(conn, "show.json", user: user)
   end
 
@@ -29,7 +32,7 @@ defmodule EventsApiWeb.UserController do
     user = Users.get_user!(id)
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, "show.json", user: user)
+      render(conn, "show.json", user: Users.load_user(user))
     end
   end
 
@@ -39,5 +42,13 @@ defmodule EventsApiWeb.UserController do
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def photo(conn, %{"id" => id}) do
+    user = Users.get_user!(id)
+    {:ok, data, type} = Photos.load_photo(user.photo_id)
+    conn
+    |> put_resp_content_type(type)
+    |> send_resp(200, data)
   end
 end

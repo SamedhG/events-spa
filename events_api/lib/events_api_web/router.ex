@@ -16,6 +16,7 @@ defmodule EventsApiWeb.Router do
   scope "/", EventsApiWeb do
     pipe_through :browser
 
+    get "/users/:id/photo", UserController, :photo
     get "/", PageController, :index
   end
 
@@ -26,6 +27,7 @@ defmodule EventsApiWeb.Router do
     resources "/events", EventController, except: [:new, :edit]
     resources "/comments", CommentController, except: [:new, :edit]
     resources "/invites", InviteController, except: [:new, :edit]
+    resources "/session", SessionController, only: [:create]
   end
 
   # Enables LiveDashboard only for development
