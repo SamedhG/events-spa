@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import pick from 'lodash/pick';
 import { create_user, fetch_users } from '../api';
-
+import store from '../store'
 export default function UserForm({id}) {
     let history = useHistory();
     const [user, setUser] = useState({
@@ -25,7 +25,6 @@ export default function UserForm({id}) {
         return "";
     }
 
-
     function update(field, ev) {
         let u1 = Object.assign({}, user);
         u1[field] = ev.target.value;
@@ -45,9 +44,19 @@ export default function UserForm({id}) {
     function submit(ev) {
         ev.preventDefault()
         let data = pick(user, ['name', 'email', 'password', 'photo']);
-        create_user(data).then(() => {
-            fetch_users();
-            history.push("/users");
+        create_user(data).then((data) => {
+            if (data.errors) {
+                let action = {
+                    type: 'error/set',
+                    data: Object.entries(data.errors).reduce((acc, [key, value]) =>
+                        `${acc}\n${key.toUpperCase()}\n${value.join('\n')}`, ""),
+                };
+                store.dispatch(action);
+            } else {
+                fetch_users();
+                
+                history.goBack();
+            }
         });
     }
 

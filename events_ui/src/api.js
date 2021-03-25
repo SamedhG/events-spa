@@ -83,22 +83,14 @@ export function fetch_current_user() {
     }));
 }
 
-export function create_user(user) {
+export async function create_user(user) {
     let data = new FormData();
     data.append("user[name]", user.name);
     data.append("user[email]", user.email);
     data.append("user[password]", user.password);
     data.append("user[photo]", user.photo);
-    return fetch(BASE_URL + "/users", { method: 'POST', body: data})
-        .then((r) => r.json().then((data) => {
-            if (data.errors) {
-                let action = {
-                    type: 'error/set',
-                    data: JSON.stringify(data.errors),
-                };
-                store.dispatch(action);
-            }
-        }))
+    let text = await fetch(BASE_URL + "/users", { method: 'POST', body: data})
+    return text.json()
 }
 
 export function create_event(event) {

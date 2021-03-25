@@ -64,7 +64,7 @@ defmodule EventsApiWeb.UserController do
 
   defp add_photo_to_user(user_params) do
     up = user_params["photo"]
-    if up == nil do
+    if up == nil || up === "undefined" do
       user_params
     else
       # TODO: check if the type is a valid image type?
