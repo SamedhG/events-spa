@@ -8,13 +8,13 @@ defmodule EventsApiWeb.UserController do
 
   action_fallback EventsApiWeb.FallbackController
 
-  plug Plugs.RequireAuth when action in [:edit, :update]
-  plug :require_owner when action in [:edit, :update]
+  plug Plugs.RequireAuth when action in [:update]
+  plug :require_owner when action in [:update]
 
   def require_owner(conn, _args) do
     {id, _} = Integer.parse(conn.params["id"])
     curr_user = conn.assigns[:current_user]
-    if curr_user.user_id == id do
+    if curr_user.id == id do
       conn
     else
       conn
@@ -50,7 +50,7 @@ defmodule EventsApiWeb.UserController do
     user = Users.get_user!(id)
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, "show.json", user: Users.load_user(user))
+      render(conn, "base.json", user: Users.load_user(user))
     end
   end
 

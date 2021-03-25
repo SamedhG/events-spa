@@ -49,6 +49,10 @@ function ToolBar({session}) {
         <>
             <Image id={session.user_id} /> 
             <span className="mx-4 text-white"> {session.name} </span>
+
+            <NavLink to="/users/edit" exact className="btn btn-outline-info mr-sm-2">
+                Edit
+            </NavLink>
             <Button variant="outline-info" 
                 className="mr-sm-2" 
                 type="submit" onClick={logout}>

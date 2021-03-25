@@ -2,15 +2,19 @@ import { Container, Form, Button } from 'react-bootstrap';
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import pick from 'lodash/pick';
-import { create_user, fetch_users } from '../api';
+import { create_user, fetch_users, update_user } from '../api';
 import store from '../store'
-export default function UserForm({id}) {
+import { connect } from 'react-redux';
+
+function UserForm({session}) {
+
+    console.log(session)
     let history = useHistory();
     const [user, setUser] = useState({
-        name: "", 
+        name: (session && session.name) || "", 
         pass1: "", 
         pass2: "",
-        email: "",
+        email: (session && session.email) || "", 
         pass_msg: ""});
 
     function check_pass(p1, p2) {
@@ -44,7 +48,8 @@ export default function UserForm({id}) {
     function submit(ev) {
         ev.preventDefault()
         let data = pick(user, ['name', 'email', 'password', 'photo']);
-        create_user(data).then((data) => {
+        let func = session ? () => update_user(data, session.user_id) : () => create_user(data)
+        func().then((data) => {
             if (data.errors) {
                 let action = {
                     type: 'error/set',
@@ -54,7 +59,6 @@ export default function UserForm({id}) {
                 store.dispatch(action);
             } else {
                 fetch_users();
-                
                 history.goBack();
             }
         });
@@ -98,3 +102,6 @@ export default function UserForm({id}) {
         </Container>
     );
 }
+
+
+export default connect(({session})=>({session}))(UserForm);

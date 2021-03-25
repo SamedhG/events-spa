@@ -17,6 +17,9 @@ function App() {
                 <Route path="/users/new">
                     <UserForm />
                 </Route>
+                <Route path="/users/edit">
+                    <UserForm />
+                </Route>
                 <Route path="/users" exact>
                     <Directory />
                 </Route>

@@ -93,6 +93,25 @@ export async function create_user(user) {
     return text.json()
 }
 
+
+export async function update_user(user, id) {
+
+    let token =  store.getState().session && store.getState().session.token
+    let data = new FormData();
+    data.append("user[name]", user.name);
+    data.append("user[email]", user.email);
+    if (user.password) data.append("user[password]", user.password);
+    data.append("user[photo]", user.photo);
+    let text = await fetch(BASE_URL + "/users/" + id, { 
+        method: 'PATCH', 
+        body: data, 
+        headers: {
+            'x-auth': token
+        }})
+    return text.json()
+}
+
+
 export function create_event(event) {
     return api_post("/events", {event: event})
 }
