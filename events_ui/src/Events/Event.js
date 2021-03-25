@@ -3,7 +3,6 @@ import { Container, Jumbotron, Table, ListGroup, Form, Row, Col, Button, ToggleB
 import Image from '../Image'
 import { fetch_event, create_comment, delete_comment, create_invite, update_invite } from '../api'
 import { connect } from 'react-redux';
-
 function CommentForm({event_id, update}) {
     const [comment, setComment] = useState({event_id: event_id, body: ""});
 
@@ -30,7 +29,6 @@ function CommentForm({event_id, update}) {
 
 function InviteForm({event_id, update}) {
     const [invite, setInvite] = useState({event_id: event_id, email: ""});
-
     function submit(ev) {
         ev.preventDefault()
         create_invite(invite).then((resp) => {
@@ -40,6 +38,8 @@ function InviteForm({event_id, update}) {
     }
 
     return (
+        <>
+        <p>Invite URL: {window.location.href}</p>
         <Form onSubmit={submit} className="my-4">
             <Row><Col sm={9}>
             <Form.Control 
@@ -50,6 +50,7 @@ function InviteForm({event_id, update}) {
                 <Button type="submit"> Invite </Button>
             </Col></Row>
         </Form>
+        </>
     );
 }
 

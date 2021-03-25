@@ -11,9 +11,9 @@
  - totals of invites displayed
  - Deployment
  - password validation on the server
+ - Invite URL
 
  Todo:
  - Edit User
  - Edit Event
- - Invite URL
 
