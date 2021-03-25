@@ -6,10 +6,10 @@
  - creating comments
  - deleting comments
  - access control around comments
-
- Todo:
  - creating invites
  - Responding to invites
+
+ Todo:
  - totals of invites displayed
  - password validation on the server
 

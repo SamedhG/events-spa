@@ -22,6 +22,20 @@ async function api_post(path, data) {
     return await text.json();
 }
 
+async function api_patch(path, data) {
+    let token =  store.getState().session && store.getState().session.token
+    let opts = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-auth': token
+        },
+        body: JSON.stringify(data),
+    };
+    let text = await fetch(BASE_URL + path, opts);
+    return await text.json();
+}
+
 async function api_delete(path) {
     let token =  store.getState().session && store.getState().session.token
     let opts = {
@@ -84,6 +98,14 @@ export function create_event(event) {
 
 export function create_comment(comment) {
     return api_post("/comments", {comment: comment})
+}
+
+export function create_invite(invite) {
+    return api_post("/invites", invite)
+}
+
+export function update_invite(invite) {
+    return api_patch("/invites/1", invite)
 }
 
 export function delete_comment(id) {
