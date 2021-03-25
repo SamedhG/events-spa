@@ -4,10 +4,11 @@ defmodule EventsApiWeb.UserController do
   alias EventsApi.Users
   alias EventsApi.Users.User
   alias EventsApi.Photos
+  alias EventsApiWeb.Plugs
 
   action_fallback EventsApiWeb.FallbackController
 
-  plug Plugs.RequireUser when action in [:edit, :update]
+  plug Plugs.RequireAuth when action in [:edit, :update]
   plug :require_owner when action in [:edit, :update]
 
   def require_owner(conn, _args) do

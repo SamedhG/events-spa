@@ -9,10 +9,12 @@ export async function api_get(path) {
 
 
 async function api_post(path, data) {
+    let token =  store.getState().session && store.getState().session.token
     let opts = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'x-auth': token
         },
         body: JSON.stringify(data),
     };
@@ -64,6 +66,10 @@ export function create_user(user) {
     data.append("user[password]", user.password);
     data.append("user[photo]", user.photo);
     return fetch(BASE_URL + "/users", { method: 'POST', body: data})
+}
+
+export function create_event(event) {
+    return api_post("/events", {event: event})
 }
 
 export function load_defaults() {

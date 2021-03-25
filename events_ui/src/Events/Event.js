@@ -6,7 +6,6 @@ import { fetch_event } from '../api'
 export default function Event(props) {
     const [event, setEvent] = useState({title: "", description: "", invites: [], comments: [], owner: {id: 1}})
     let id = props.id || props.match.params.id
-    console.log(event)
     useEffect(() => {
         fetch_event(id).then((ev) => setEvent(ev))
     }, [id])

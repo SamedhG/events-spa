@@ -5,15 +5,17 @@ import { Link } from 'react-router-dom';
 function EventCard({event}) {
     return (
         <Card bg="dark" text="white" >
-            <Card.Header> {event.title} </Card.Header>
+            <Card.Header className="d-flex justify-content-between"> 
+                {event.title} 
+                <span className="text-muted">{event.owner && event.owner.name}</span>
+            </Card.Header>
             <Card.Body>
                 <Card.Title></Card.Title>
-                
+                <Card.Subtitle className="text-muted">
+                    {(new Date(event.date + " " + event.time)).toLocaleString()} 
+                </Card.Subtitle>
                 <Card.Text>
-
-                <p className="text-muted">{(new Date(event.date + " " + event.time)).toLocaleString()} </p>
-                <p className="text-muted">Created By {event.owner && event.owner.name}</p>
-                <p>   {event.description} </p>
+                {event.description}
                 </Card.Text>
                 <Link to={`/events/${event.id}`} className='btn btn-outline-info'>Go</Link>
             </Card.Body>
@@ -25,15 +27,17 @@ function EventCard({event}) {
 
 function Home({current_user}) {
     let main = null;
-    console.log(current_user)
     if(current_user) main = (
         <>
-            <h2 className="my-4">Your Events</h2>
+        <Link to="/events/new" className="btn btn-info my-4">
+        Create Event
+        </Link>
+            <h2 className="my-2">Your Events</h2>
             <CardColumns>
                 {current_user.events.map((e, i) => <EventCard event={e} key={i} />) }
             </CardColumns>
 
-            <h2 className="my-4">Your Invites</h2>
+            <h2 className="my-2">Your Invites</h2>
             <CardColumns>
                 {current_user.invites.map((e, i) => <EventCard event={e} key={i} />) }
             </CardColumns>

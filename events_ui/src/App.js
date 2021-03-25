@@ -5,6 +5,7 @@ import Home from './Home';
 import Directory from './Users/Directory';
 import UserForm from './Users/Form';
 import Event from './Events/Event';
+import EventForm from './Events/Form';
 function App() {
     return (
         <>
@@ -18,6 +19,9 @@ function App() {
                 </Route>
                 <Route path="/users" exact>
                     <Directory />
+                </Route>
+                <Route path="/events/new" exact>
+                    <EventForm />
                 </Route>
                 <Route path="/events/:id" component={Event} exact />
             </Switch>

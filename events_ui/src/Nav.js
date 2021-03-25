@@ -48,7 +48,7 @@ function ToolBar({session}) {
     return (
         <>
             <Image id={session.user_id} /> 
-            <span class="mx-1 text-white"> {session.name} </span>
+            <span className="mx-4 text-white"> {session.name} </span>
             <Button variant="outline-info" 
                 className="mr-sm-2" 
                 type="submit" onClick={logout}>

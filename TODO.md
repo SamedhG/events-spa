@@ -2,6 +2,7 @@
  - show post page
  - user registration page
  - Link the main page cards to the event pages
+ - create event page
 
  Todo:
  - creating invites
@@ -10,6 +11,5 @@
  - creating comments
  - deleting comments
  - access control around comments
- - create event page
  - password validation on the server
 

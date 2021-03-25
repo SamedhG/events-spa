@@ -16,6 +16,15 @@ defmodule EventsApiWeb.EventView do
     %{data: render_one(event, EventView, "event_full.json")}
   end
 
+  def render("base.json", %{event: event}) do
+    %{data: 
+      %{id: event.id,
+        title: event.title,
+        description: event.description,
+        date: event.date,
+        time: event.time,}}
+  end
+
   def render("event_full.json", %{event: event}) do
     %{
       id: event.id,

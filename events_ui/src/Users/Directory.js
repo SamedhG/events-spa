@@ -4,7 +4,6 @@ import {FaClipboardList} from "react-icons/fa";
 import Image from "../Image"
 
 function Directory({users}) {
-console.log(users)
     return ( <Container>
         <h2 className="my-4"><FaClipboardList /> Users</h2>
         <ListGroup>
