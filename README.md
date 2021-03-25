@@ -33,5 +33,11 @@ cd events_api
 ./deploy.sh
 sudo systemctl restart events-spa.service
 ```
-
-
+## External Libraries
+### UI
+- bootstrap
+- redux
+- react-router
+### Serer
+- Argon2
+- Notqwerty123

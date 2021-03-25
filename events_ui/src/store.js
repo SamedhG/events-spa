@@ -4,7 +4,10 @@ function error(state = null, action) {
   switch (action.type) {
     case 'session/set':
       return null;
-    case 'error/set':
+      case 'error/clear':
+          return null;
+      case 'error/set':
+          setTimeout(() => store.dispatch({type: "error/clear"}), 5000) 
       return action.data;
     default:
       return state;
@@ -47,19 +50,19 @@ function session(state = load_session(), action) {
 
 function users(state = [], action) {
     switch (action.type) {
-    case 'users/set':
-        return action.data;
-    default:
-        return state;
+        case 'users/set':
+            return action.data;
+        default:
+            return state;
     }
 }
 
 function current_user(state= null, action) {
     switch (action.type) {
-    case 'current_user/set':
-        return action.data;
-    default:
-        return state;
+        case 'current_user/set':
+            return action.data;
+        default:
+            return state;
     }
 }
 

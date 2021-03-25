@@ -10,9 +10,9 @@
  - Responding to invites
  - totals of invites displayed
  - Deployment
+ - password validation on the server
 
  Todo:
- - password validation on the server
  - Edit User
  - Edit Event
  - Invite URL

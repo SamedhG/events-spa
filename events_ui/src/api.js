@@ -1,8 +1,7 @@
 import store from './store';
-export const BASE_URL = process.env.NODE_ENV === "production" ? "http://events-spa.samedh.site/api/v1" : "http://localhost:4000/api/vi"
+export const BASE_URL = process.env.NODE_ENV === "production" ? "http://events-spa.samedh.site/api/v1" : "http://localhost:4000/api/v1"
 
 export async function api_get(path) {
-	console.log(BASE_URL)
     let text = await fetch( BASE_URL + path, {});
     let resp = await text.json();
     return resp.data;
@@ -91,6 +90,15 @@ export function create_user(user) {
     data.append("user[password]", user.password);
     data.append("user[photo]", user.photo);
     return fetch(BASE_URL + "/users", { method: 'POST', body: data})
+        .then((r) => r.json().then((data) => {
+            if (data.errors) {
+                let action = {
+                    type: 'error/set',
+                    data: JSON.stringify(data.errors),
+                };
+                store.dispatch(action);
+            }
+        }))
 }
 
 export function create_event(event) {
