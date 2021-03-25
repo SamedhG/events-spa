@@ -9,7 +9,11 @@
  - creating invites
  - Responding to invites
  - totals of invites displayed
+ - Deployment
 
  Todo:
  - password validation on the server
+ - Edit User
+ - Edit Event
+ - Invite URL
 
