@@ -8,8 +8,8 @@
  - access control around comments
  - creating invites
  - Responding to invites
+ - totals of invites displayed
 
  Todo:
- - totals of invites displayed
  - password validation on the server
 

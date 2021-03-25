@@ -92,6 +92,10 @@ function Event(props) {
         delete_comment(comment_id).then(() => 
             fetch_event(id).then((ev) => setEvent(ev)))
     }
+    const scores = event.invites.reduce((acc, i) => {
+        acc[i.response] = acc[i.response] + 1
+        return acc
+    }, {yes: 0, no: 0, maybe: 0})
     // Roles
     const logged_in = props.session != null
     const owner = logged_in && props.session.user_id === event.owner.id
@@ -112,7 +116,23 @@ function Event(props) {
                     response={event.invites.find(inv => inv.email === props.session.email).response}/> }
             </Jumbotron>
 
-            <h2>Responses</h2>
+            <Row>
+                <Col sm={4}>
+                    <h2>Responses</h2>
+                </Col> <Col sm={8}>
+                    <ListGroup horizontal>
+                        <ListGroup.Item>
+                            Yes: {scores.yes}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            Maybe: {scores.maybe}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            No: {scores.no}
+                        </ListGroup.Item>
+                    </ListGroup>
+                </Col>
+            </Row>
             <Table>
                 <thead><tr>
                     <th width="70%">Email</th>
