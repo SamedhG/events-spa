@@ -1,7 +1,8 @@
 import store from './store';
-const BASE_URL = "http://localhost:4000/api/v1"
+export const BASE_URL = process.env.NODE_ENV === "production" ? "http://events-spa.samedh.site/api/v1" : "http://localhost:4000/api/vi"
 
 export async function api_get(path) {
+	console.log(BASE_URL)
     let text = await fetch( BASE_URL + path, {});
     let resp = await text.json();
     return resp.data;

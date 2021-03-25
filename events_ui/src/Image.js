@@ -1,6 +1,8 @@
+import {BASE_URL} from './api';
+
 export default function Image({id}) {
     // TODO: Take out into config
-    const image_path = `http://localhost:4000/users/${id}/photo`
+    const image_path = `${BASE_URL}/users/${id}/photo`
     const style = {
         width: "50px",
         height: "50px",

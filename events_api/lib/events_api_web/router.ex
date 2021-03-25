@@ -16,7 +16,7 @@ defmodule EventsApiWeb.Router do
   scope "/", EventsApiWeb do
     pipe_through :browser
 
-    get "/users/:id/photo", UserController, :photo
+    get "/api/v1/users/:id/photo", UserController, :photo
     get "/", PageController, :index
   end
 
