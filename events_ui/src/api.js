@@ -22,6 +22,16 @@ async function api_post(path, data) {
     return await text.json();
 }
 
+async function api_delete(path) {
+    let token =  store.getState().session && store.getState().session.token
+    let opts = {
+        method: 'DELETE',
+        headers: { 'x-auth': token },
+    };
+    return await fetch(BASE_URL + path, opts);
+}
+
+
 export function api_login(email, password) {
     api_post("/session", {email, password}).then((data) => {
         if (data.session) {
@@ -72,6 +82,13 @@ export function create_event(event) {
     return api_post("/events", {event: event})
 }
 
+export function create_comment(comment) {
+    return api_post("/comments", {comment: comment})
+}
+
+export function delete_comment(id) {
+    return api_delete("/comments/" + id)
+}
 export function load_defaults() {
     fetch_users();
     if(store.getState().session) fetch_current_user()
