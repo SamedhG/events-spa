@@ -18,8 +18,6 @@ defmodule EventsApiWeb.UserController do
       conn
     else
       conn
-      |> put_flash(:error, "That isn't yours.")
-      |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
   end

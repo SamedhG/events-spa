@@ -27,6 +27,7 @@ function App() {
                     <EventForm />
                 </Route>
                 <Route path="/events/:id" component={Event} exact />
+                <Route path="/events/:id/edit" component={EventForm} exact />
             </Switch>
         </>
     );

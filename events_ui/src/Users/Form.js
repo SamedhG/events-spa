@@ -66,7 +66,7 @@ function UserForm({session}) {
 
     return (
         <Container>
-            <h2 className="my-4">Register</h2>
+            <h2 className="my-4">{session ? "Edit" : "Register" }</h2>
             <Form onSubmit={submit}>
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
@@ -97,7 +97,7 @@ function UserForm({session}) {
                     alt="uploaded"/>}
                 <br />
                 <br />
-                <Button type="submit"> Register </Button>
+                <Button type="submit">{session ? "Save" : "Register" }</Button>
             </Form>
         </Container>
     );

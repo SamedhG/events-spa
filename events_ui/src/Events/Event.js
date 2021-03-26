@@ -3,6 +3,8 @@ import { Container, Jumbotron, Table, ListGroup, Form, Row, Col, Button, ToggleB
 import Image from '../Image'
 import { fetch_event, create_comment, delete_comment, create_invite, update_invite } from '../api'
 import { connect } from 'react-redux';
+import { useParams, Link } from "react-router-dom";
+import { FaPen } from 'react-icons/fa';
 function CommentForm({event_id, update}) {
     const [comment, setComment] = useState({event_id: event_id, body: ""});
 
@@ -76,11 +78,12 @@ function InviteResponse({event_id, update, response}) {
     </>)
 }
 
-function Event(props) {
+function Event({session}) {
+
     const [event, setEvent] = useState({title: "", 
         description: "", invites: [], comments: [], owner: {id: 1}})
 
-    let id = props.id || props.match.params.id
+    let { id } = useParams()
     useEffect(() => {
         fetch_event(id).then((ev) => setEvent(ev))
     },[id])
@@ -98,15 +101,20 @@ function Event(props) {
         return acc
     }, {yes: 0, no: 0, maybe: 0})
     // Roles
-    const logged_in = props.session != null
-    const owner = logged_in && props.session.user_id === event.owner.id
+    const logged_in = session != null
+    const owner = logged_in && session.user_id === event.owner.id
     const invitee = logged_in && 
-        event.invites.reduce((acc, i) => acc || i.email === props.session.email, false)
+        event.invites.reduce((acc, i) => acc || i.email === session.email, false)
     return(
         <Container>
 
             <Jumbotron>
-                <h2>{event.title}</h2>
+                <Row>
+                    <Col><h2>
+                {event.title}
+                    </h2></Col>
+                    {owner && <Col><Link to={`/events/${id}/edit`}><FaPen /></Link></Col>}
+                </Row>
                 <p><Image id={event.owner.id} /> {event.owner.name} </p>
                 <p><strong>Description: </strong>{event.description}</p>
                 <p><strong>When: </strong>{event.date}, {event.time}</p>
@@ -114,7 +122,7 @@ function Event(props) {
                 {invitee && <InviteResponse 
                     event_id={id} 
                     update={update} 
-                    response={event.invites.find(inv => inv.email === props.session.email).response}/> }
+                    response={event.invites.find(inv => inv.email === session.email).response}/> }
             </Jumbotron>
 
             <Row>
@@ -159,7 +167,7 @@ function Event(props) {
                             <strong className="mx-2">{comment.user.name}</strong>
                             {comment.body}
                         </span>
-                        {logged_in && (owner || props.session.user_id === comment.user.id) && 
+                        {logged_in && (owner || session.user_id === comment.user.id) && 
                         <Button onClick={() => del(comment.id) }>X</Button>}
                     </ListGroup.Item>
 

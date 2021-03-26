@@ -6,7 +6,7 @@ defmodule EventsApiWeb.EventController do
   alias EventsApiWeb.Plugs
   action_fallback EventsApiWeb.FallbackController
 
-  plug Plugs.RequireAuth when action in [:create]
+  plug Plugs.RequireAuth when action in [:create, :update]
     
 
 
@@ -26,4 +26,17 @@ defmodule EventsApiWeb.EventController do
     render(conn, "show.json", event: event)
   end
 
+  def update(conn, %{"id" => id, "event" => event_params}) do
+    event = Events.get_event!(id)
+
+    current_user = conn.assigns[:current_user]
+    if current_user.id != event.owner do
+      conn  
+      |> send_resp(:unprocessable_entity, Jason.encode!(%{"error" => "Not allowed"}))
+    else 
+      with {:ok, %Event{} = event} <- Events.update_event(event, event_params) do
+        render(conn, "base.json", event: event)
+      end
+    end
+  end
 end

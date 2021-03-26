@@ -95,7 +95,6 @@ export async function create_user(user) {
 
 
 export async function update_user(user, id) {
-
     let token =  store.getState().session && store.getState().session.token
     let data = new FormData();
     data.append("user[name]", user.name);
@@ -114,6 +113,10 @@ export async function update_user(user, id) {
 
 export function create_event(event) {
     return api_post("/events", {event: event})
+}
+
+export function update_event(event, id) {
+    return api_patch("/events/" + id, {event: event})
 }
 
 export function create_comment(comment) {

@@ -13,7 +13,7 @@
  - password validation on the server
  - Invite URL
  - Edit User
-
- Todo:
  - Edit Event
 
+Todo: 
+ - Empty Now :)
