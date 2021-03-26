@@ -1,5 +1,5 @@
 import {Navbar, Form, Button, Nav, Alert} from 'react-bootstrap'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { FaHome, FaUsers } from "react-icons/fa"
 import { connect } from 'react-redux';
 import {useState} from 'react'
@@ -41,9 +41,11 @@ function LoginForm() {
 }
 
 function ToolBar({session}) {
+    const history = useHistory()
     function logout(ev) {
         ev.preventDefault();
         store.dispatch({ type: 'session/clear' });
+        history.go(0)
     }
     return (
         <>

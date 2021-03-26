@@ -44,7 +44,7 @@ function Home({current_user}) {
         </>
 
     );
-    else main = <h1 className="my-6">Sign Up to start creating events!</h1>
+    else main = <h1 className="my-4">Register or login to start :)</h1>
 
         return(<Container>
             {main}
